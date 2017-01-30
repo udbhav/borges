@@ -14,4 +14,5 @@ depends 'ruby_build', '~> 1.0.0'
 depends 'ruby_rbenv', '~> 1.1.0'
 depends 'sudo', '~> 3.3.1'
 depends 'virtualbox', '~> 1.0.3'
-
+depends 'chef_nginx', '~> 5', git: 'git@github.com:chef-cookbooks/chef_nginx.git'
+depends 'htpasswd', '~> 0.2.4'

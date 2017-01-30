@@ -61,6 +61,11 @@ admins.each do |login|
     shell "/bin/zsh"
     password admin['password']
   end
+
+  htpasswd "/etc/nginx/htpassword" do
+    user login
+    password admin['htpasswd']
+  end
 end
 
 node.default['authorization']['sudo']['groups'] = [ADMIN_GROUP]
@@ -202,3 +207,14 @@ group 'docker' do
   members DEFAULT_USER
   append true
 end
+
+# nginx
+include_recipe 'chef_nginx'
+
+# sites for projects
+template '/etc/nginx/sites-available/projects' do
+  source 'nginx.erb'
+  variables({ projects: node['borges']['projects'] })
+end
+
+nginx_site "projects"

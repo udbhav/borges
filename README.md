@@ -2,18 +2,7 @@
 
 A machine for development.
 
-## Local port forwarding
-
-You've got borges running on a remote machine, but would like to
-communicate with a development server on port 8080. Run this from your
-machine:
-
-    ssh -L 8080:localhost:8080 user@yourserver.com
-
-Now, for the duration of your ssh session, `localhost:8080` in your
-browser will be `localhost:8080` on borges.
-
-## Creating a production machine
+## Creating a remote machine
 
 You'll need to create `data_bags/admins/username.json` using a format
 like:
@@ -23,6 +12,7 @@ like:
   "name": "Your Name",
   "email": "you@example.com",
   "password": "your_password_shadow_hash",
+  "htpasswd": "your_password",
   "id_rsa": "id_rsa_with_line_returns_escaped",
   "id_rsa.pub": "id_rsa.pub_with_line_returns_escaped"
 }
@@ -46,7 +36,24 @@ directory.
 
 If you need to update the cookbook run:
 
-    cd /root/borges && berks vendor /root/local_mode_repo/cookbooks && cd /root/local_mode_repo && chef-client -z -o borges
+    cd /root/borges && berks vendor /root/local_mode_repo/cookbooks \
+    && cd /root/local_mode_repo && chef-client -z -o borges
+
+Save custom attributes in a json file and pass them in to chef-client
+if you need:
+
+    chef-client -z -o borges -j node.json
+
+## Local port forwarding
+
+You've got borges running on a remote machine, but would like to
+communicate with a development server on port 8080. Run this from your
+machine:
+
+    ssh -L 8080:localhost:8080 user@yourserver.com
+
+Now, for the duration of your ssh session, `localhost:8080` in your
+browser will be `localhost:8080` on borges.
 
 ## Running locally
 
