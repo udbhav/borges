@@ -14,3 +14,7 @@ bin/*
 
 .kitchen/
 .kitchen.local.yml
+
+data_bags/
+nodes/
+local-mode-cache/
