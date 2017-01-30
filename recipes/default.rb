@@ -101,6 +101,14 @@ file "#{DEFAULT_HOME}/.ssh/config" do
   content "Host github.com\n\tStrictHostKeyChecking no\n"
 end
 
+# oh my zsh
+execute "oh-my-zsh" do
+  command "sh -c \"$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\" || true"
+  user DEFAULT_USER
+  environment ({'HOME' => DEFAULT_HOME})
+  not_if { Dir.exist?("#{DEFAULT_HOME}/.oh-my-zsh") }
+end
+
 # dotfile configs
 git "#{DEFAULT_HOME}/dotfiles" do
   repository node['borges']['dotfiles_repo']
@@ -114,14 +122,6 @@ links.each do |l|
   link "#{DEFAULT_HOME}/#{l}" do
     to "#{DEFAULT_HOME}/dotfiles/#{l}"
   end
-end
-
-# oh my zsh
-execute "oh-my-zsh" do
-  command "sh -c \"$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\" || true"
-  user DEFAULT_USER
-  environment ({'HOME' => DEFAULT_HOME})
-  not_if { Dir.exist?("#{DEFAULT_HOME}/.oh-my-zsh") }
 end
 
 git "#{DEFAULT_HOME}/borges" do
