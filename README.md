@@ -62,4 +62,5 @@ browser will be `localhost:8080` on borges.
 ## TODOS
 
 - tmux confs for each project
-
+- Add docs about editing a node etc.
+- Automate config.rb in provision.sh

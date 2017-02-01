@@ -23,12 +23,16 @@ apt_repository 'oracle-virtualbox' do
 end
 
 # essential tools
+
 packages = [
   'curl',
   'git',
   'tmux',
   'zsh',
-  'emacs',
+
+  # emacs
+  'emacs', 'ispell',
+
   'vagrant',
   'yarn',
 
@@ -218,3 +222,17 @@ template '/etc/nginx/sites-available/projects' do
 end
 
 nginx_site "projects"
+
+# emacs daemon
+SYSTEMD_DIR = "/etc/systemd/system"
+directory SYSTEMD_DIR do
+  recursive true
+end
+
+template "#{SYSTEMD_DIR}/emacs@.service" do
+  source 'emacs.service'
+end
+
+service "emacs@#{DEFAULT_USER}.service" do
+  action [:enable, :start]
+end
