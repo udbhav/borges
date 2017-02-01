@@ -35,6 +35,7 @@ packages = [
 
   'vagrant',
   'yarn',
+  'mosh',
 
   # virtualbox
   'dkms', 'virtualbox-5.1'
