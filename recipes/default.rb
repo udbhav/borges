@@ -32,7 +32,7 @@ packages = [
   'xclip',
 
   # emacs
-  'emacs', 'ispell',
+  'emacs', 'ispell', 'ess',
 
   'vagrant',
   'yarn',
