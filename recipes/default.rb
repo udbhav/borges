@@ -29,6 +29,7 @@ packages = [
   'git',
   'tmux',
   'zsh',
+  'xclip',
 
   # emacs
   'emacs', 'ispell',
@@ -236,4 +237,23 @@ end
 
 service "emacs@#{DEFAULT_USER}.service" do
   action [:enable, :start]
+end
+
+USER_BIN = "#{DEFAULT_HOME}/bin"
+directory USER_BIN do
+  recursive true
+  owner DEFAULT_USER
+end
+
+# pbcopy-remote and pbpaste-remote
+template "#{USER_BIN}/pbcopy-remote" do
+  source 'pbcopy-remote.sh'
+  owner DEFAULT_USER
+  mode "0755"
+end
+
+template "#{USER_BIN}/pbpaste-remote" do
+  source 'pbpaste-remote.sh'
+  owner DEFAULT_USER
+  mode "0755"
 end
