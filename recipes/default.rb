@@ -257,3 +257,10 @@ template "#{USER_BIN}/pbpaste-remote" do
   owner DEFAULT_USER
   mode "0755"
 end
+
+
+# R Language
+
+package 'r-base' do
+  action :install
+end
