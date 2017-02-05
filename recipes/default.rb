@@ -22,10 +22,18 @@ apt_repository 'oracle-virtualbox' do
   components ['contrib']
 end
 
+apt_repository 'r-base' do
+  uri 'http://cran.rstudio.com/bin/linux/ubuntu'
+  key 'E084DAB9'
+  keyserver 'keyserver.ubuntu.com'
+  distribution "#{node['lsb']['codename']}/"
+end
+
 # essential tools
 
 packages = [
   'curl',
+  'libcurl4-openssl-dev', # for packages in R
   'git',
   'tmux',
   'zsh',
@@ -217,10 +225,23 @@ end
 # nginx
 include_recipe 'chef_nginx'
 
+# public html directory
+PUBLIC_DIR = "#{DEFAULT_HOME}/public_html"
+directory PUBLIC_DIR do
+  recursive true
+  user DEFAULT_USER
+end
+
 # sites for projects
 template '/etc/nginx/sites-available/projects' do
   source 'nginx.erb'
-  variables({ projects: node['borges']['projects'] })
+  variables(
+    {
+      projects: node['borges']['projects'],
+      hostname: node['borges']['hostname'],
+      public_dir: PUBLIC_DIR,
+    }
+  )
 end
 
 nginx_site "projects"
@@ -260,7 +281,15 @@ end
 
 
 # R Language
-
 package 'r-base' do
   action :install
+end
+
+python_packages = [
+  'glances', # sysadmin
+  'flake8', # linting
+]
+
+python_packages.each do |pkg|
+  python_package pkg
 end
